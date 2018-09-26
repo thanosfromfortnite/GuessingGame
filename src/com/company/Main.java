@@ -3,8 +3,24 @@ package com.company;
 import java.util.Scanner;
 
 public class Main {
+    public static void main(String[] args) {
+        System.out.println("Please choose which game you want to play (1/2)");
+        Scanner input = new Scanner(System.in);
+        String game = input.nextLine();
+        while (!game.equals("1") && !game.equals("2")) {
+            System.out.println("That is not one of your options. Do you want to play game 1 or 2?");
+            input = new Scanner(System.in);
+            game = input.nextLine();
+        }
+        if (game.equals("1")) {
+            game1();
+        }
+        if (game.equals("2")) {
+            game2();
+        }
+    }
 
-    public static void main2(String[] args) {
+    public static void game1() {
         System.out.println("What's your name?");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
@@ -15,7 +31,7 @@ public class Main {
         System.out.println("Choose your difficulty level. (1/2/3/4)");
         input = new Scanner(System.in);
         difficulty = Integer.parseInt(input.nextLine());
-        while (difficulty < 1 || difficulty > 4) {
+        while (difficulty != 1 && difficulty != 2 && difficulty != 3 && difficulty != 4) {
             System.out.println("Don't be cheeky. You can only choose between a difficulty of 1, 2, 3, and 4.");
             input = new Scanner(System.in);
             difficulty = Integer.parseInt(input.nextLine());
@@ -39,7 +55,7 @@ public class Main {
             System.out.println("Congratulations, " + name + ". It only took you " + y + " tries to do it.");
         }
     }
-    public static void main(String[] args) {
+    public static void game2() {
         System.out.println("Tell me your name.");
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
@@ -49,14 +65,35 @@ public class Main {
         System.out.println("Choose my difficulty level. (1/2/3/4)");
         input = new Scanner(System.in);
         difficulty = Integer.parseInt(input.nextLine());
-        while (difficulty < 1 || difficulty > 4) {
+        while (difficulty != 1 && difficulty != 2 && difficulty != 3 && difficulty != 4) {
             System.out.println("Don't be cheeky. You can only choose between a difficulty of 1, 2, 3, and 4.");
             input = new Scanner(System.in);
             difficulty = Integer.parseInt(input.nextLine());
         }
-        int maxRange = (int) Math.pow(10, difficulty);
+        int maxRange = (int) Math.pow(10, difficulty); int minRange = 1; int botAnswer = (maxRange + minRange) / 2; String answer;
 
         System.out.println("Please think deeply of a number between 1 and " + maxRange + ".");
-        System.out.println("Now tell me... is the number less than ");
+        boolean correct = false;
+        while (!correct) {
+            System.out.println("Is the number (less) than , (greater) than, or (equal) to " + (maxRange+minRange)/2 + "?");
+            input = new Scanner(System.in);
+            answer = input.nextLine();
+            while (!answer.equals("greater") && !answer.equals("less") && !answer.equals("equal")) {
+                System.out.println("I need a real answer. Is it [[[less]]], [[[greater]]] than, or [[[equal]]] to " + botAnswer + "?");
+                input = new Scanner(System.in);
+                answer = input.nextLine();
+            }
+            if (answer.equals("greater")) {
+                minRange = botAnswer;
+            } else if (answer.equals("less")) {
+                maxRange = botAnswer;
+            }
+            else correct = true;
+            botAnswer = (maxRange + minRange) / 2;
+            if (botAnswer == maxRange || botAnswer == minRange) {
+                correct = true;
+            }
+        }
+        System.out.println("I have discovered your number, " + botAnswer);
     }
 }
